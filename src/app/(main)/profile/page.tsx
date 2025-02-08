@@ -1,14 +1,21 @@
+//'use server'
 /* eslint-disable @next/next/no-img-element */
 
-import { auth } from "@/auth";
-import { prisma } from "@/db";
+import { auth, signOut } from "@/auth";
+import { db } from "@/db";
 import { ArrowBigLeftDash, Settings } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 
 export default async function ProfilePage() {
     const session = await auth();
-    const profile = await prisma.profile.findFirstOrThrow({where: {email: session?.user?.email as string}})
+    
+      if (!session) {
+        redirect('/login')
+      }
+
+    const profile = await db.profile.findFirstOrThrow({ where: { email: session?.user?.email as string } })
     return (
         <main >
             <section className="flex justify-between items-center">
@@ -41,6 +48,19 @@ export default async function ProfilePage() {
                     bio
                 </p>
             </section>
+
+            {session && (
+                <form
+                    action={async () => {
+                        "use server"
+                        await signOut();
+                    }}
+                >
+                    <button className="border px-3 bg-slate-400"
+                        type="submit">Logout
+                    </button>
+                </form>
+            )}
 
         </main>
     )
