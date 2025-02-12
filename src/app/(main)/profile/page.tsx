@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { auth, signOut } from "@/auth";
-import { db } from "@/db";
+import { prisma } from "@/db";
 import { ArrowBigLeftDash, Settings } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -15,16 +15,16 @@ export default async function ProfilePage() {
         redirect('/login')
       }
 
-    const profile = await db.profile.findFirstOrThrow({ where: { email: session?.user?.email as string } })
+    const profile = await prisma.profile.findFirstOrThrow({ where: { email: session?.user?.email as string } })
     return (
         <main >
             <section className="flex justify-between items-center">
                 <button>
                     <ArrowBigLeftDash />
                 </button>
-                <div className="font-bold">
+                {/* <div className="font-bold mt-4 flex items-center gap-2">
                     {profile.username}
-                </div>
+                </div> */}
                 <Link href='/settings'>
                     <Settings />
                 </Link>
@@ -42,10 +42,10 @@ export default async function ProfilePage() {
             </section>
             <section className="text-center mt-4">
                 <h1 className="text-xl font-bold">
-                    John
+                    {profile.username}
                 </h1>
                 <p className="text-gray-500 mt-1 mb-1">
-                    bio
+                    {profile.bio}
                 </p>
             </section>
 

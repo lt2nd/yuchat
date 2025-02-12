@@ -1,56 +1,37 @@
+
+
 import { auth } from "@/auth";
+import SettingsForm from "@/components/SettingsForm";
 import { prisma } from "@/db";
-import { Button, TextArea, TextField } from "@radix-ui/themes";
-import { console } from "inspector";
-import { CloudUploadIcon } from "lucide-react";
+//import { Button, TextArea, TextField } from "@radix-ui/themes";
+//import { CloudUploadIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 
 export default async function SettingsPage() {
+
     const session = await auth();
+
+    if (!session?.user?.email) {
+        return 'not logged in';
+    }
+
+    if (!session?.user?.email) {
+        redirect('/login');
+    }
+
+    const profile = await prisma.profile.findFirst({ where: { email: session?.user?.email as string } });
+
+    if (!profile) {
+        return <div>Profile not found</div>;
+    }
+
     return (
         <div className="max-w-md mx-auto  justify-center">
             <h1 className="text-2xl font-bold mb-4 text-center">Profile Settings</h1>
-            <form action={async (data: FormData) => {
-                'use server';
-                console.log(data)
-                await prisma.profile.upsert({
-                    where: {
-                        email: session?.user?.email || '',
-                    },
-                    update: {
-                        username: data.get('username') as string,
-                    },
-                    create: {
-                        email: session?.user?.email || '',
-                        username: data.get('username') as string,
-                    },
-                });
-                redirect('/profile')
-            }}>
-
-                <div className="flex gap-2 items-center">
-                    <div>
-
-                        <div className="bg-gray-400 size-24 rounded-full"></div>
-
-                    </div>
-                    <div>
-                        <Button variant="soft">
-                            <CloudUploadIcon />
-                            Change Avatar
-                        </Button>
-                    </div>
-                </div>
-
-                <p className="mt-2 font-bold">username</p>
-                <TextField.Root name="username" placeholder="your username" />
-                <p className="mt-2 font-bold">bio</p>
-                <TextArea />
-                <div className="mt-4 flex justify-center">
-                    <Button variant="solid">Save settings</Button>
-                </div>
-
-            </form>
+            <SettingsForm
+                profile={profile}
+                userEmail={session.user.email}
+            />
         </div>
     )
 }

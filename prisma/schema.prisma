@@ -14,13 +14,12 @@ datasource db {
 }
 
 model Profile {
-  //id     Int     @id @default(autoincrement())
   id String @id @default(uuid())
-  userId String @unique
+  userId Int   @default(autoincrement())
   bio    String?
   avatar   String? @db.Text
   username String?
-  email String @unique @db.Text
+  email String  @db.Text @unique
 
   servers Server[]
   members Member[]

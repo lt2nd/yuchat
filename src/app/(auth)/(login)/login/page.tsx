@@ -19,7 +19,7 @@ export default async function Login() {
         {!session && (
         <form action={async () => {
           'use server';
-          await signIn('google');
+          await signIn('google', {callbackUrl: '/settings'});
         }}>
           <button
             className="border px-4 py-2 bg-ig-red text-blue rounded-lg"
