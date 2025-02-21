@@ -1,11 +1,13 @@
 //'use server'
-/* eslint-disable @next/next/no-img-element */
+
 
 import { auth, signOut } from "@/auth";
 import { prisma } from "@/db";
 import { ArrowBigLeftDash, Settings } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import defaultAvatar from "../../../../images/defaultAvatar.png";
 
 
 export default async function ProfilePage() {
@@ -33,9 +35,11 @@ export default async function ProfilePage() {
                 <div className="size-50 p-2 rounded-full bg-gradient-to-tr from-blue-900 to-blue-200">
                     <div className="size-46 p-2 bg-white rounded-full">
                         <div className="size-40 aspect-square overflow-hidden rounded-full">
-                            <img className=""
-                                src="https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg" alt=""
-                            />
+                        <Image
+                            //className="rounded-full"
+                            src={profile.avatar || defaultAvatar}
+                            alt="avatar"
+                        />  
                         </div>
                     </div>
                 </div>
