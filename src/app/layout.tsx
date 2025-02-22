@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "@radix-ui/themes/styles.css";
+//import "@radix-ui/themes/styles.css";
 //import { Theme } from "@radix-ui/themes";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ModalProvider } from "@/components/providers/modal-provider";
 
 
 const geistSans = Geist({
@@ -38,8 +39,10 @@ export default function RootLayout({
           storageKey="exyuchat-theme"
         >
           
-            {children}
-         
+          <ModalProvider />
+
+          {children}
+
         </ThemeProvider>
       </body>
     </html>

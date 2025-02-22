@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     domains: [
       "uploadthing.com",
       "k04xtc53e0.ufs.sh",
+      "utfs.io",
     ],
   }
 };
