@@ -50,6 +50,8 @@ export const NavigationSidebar = async () => {
                         className="rounded-full"
                         src={profile.avatar || defaultAvatar}
                         alt="avatar"
+                        width={42}
+                        height={42}
                     />  
                 </div>
             </Link>
