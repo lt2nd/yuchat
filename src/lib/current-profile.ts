@@ -9,7 +9,7 @@ export const currentProfile = async () => {
         return null;
     }
 
-    const profile = await prisma.profile.findFirstOrThrow({ where: { email: session?.user?.email as string } })
+    const profile = await prisma.profile.findUnique({ where: { email: session?.user?.email as string } })
     //const userId = profile.userId;
 
     return profile;

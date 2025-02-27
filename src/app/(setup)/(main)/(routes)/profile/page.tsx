@@ -17,7 +17,7 @@ export default async function ProfilePage() {
         redirect('/login')
       }
 
-    const profile = await prisma.profile.findFirstOrThrow({ where: { email: session?.user?.email as string } })
+    const profile = await prisma.profile.findUnique({ where: { email: session?.user?.email as string } })
     return (
         <main >
             <section className="flex justify-between items-center">
@@ -37,7 +37,7 @@ export default async function ProfilePage() {
                         <div className="size-40 aspect-square overflow-hidden rounded-full">
                         <Image
                             //className="rounded-full"
-                            src={profile.avatar || defaultAvatar}
+                            src={profile?.avatar || defaultAvatar}
                             alt="avatar"
                         />  
                         </div>
@@ -46,10 +46,10 @@ export default async function ProfilePage() {
             </section>
             <section className="text-center mt-4">
                 <h1 className="text-xl font-bold">
-                    {profile.username}
+                    {profile?.username}
                 </h1>
                 <p className="text-gray-500 mt-1 mb-1">
-                    {profile.bio}
+                    {profile?.bio}
                 </p>
             </section>
 

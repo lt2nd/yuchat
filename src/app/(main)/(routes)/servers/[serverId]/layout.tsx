@@ -11,9 +11,9 @@ const serverIdLayout = async ({
     params,
 } : {
     children : React.ReactNode;
-    params : Promise<{
+    params : {
         serverId : string;
-    }>;
+    };
 }) => {
     const profile = await currentProfile();
 
@@ -23,7 +23,7 @@ const serverIdLayout = async ({
 
     const server = await prisma.server.findUnique({
         where: {
-            id: (await params).serverId,
+            id: params.serverId,
             members:{
                 some: {
                     profileId: profile.id
@@ -40,7 +40,7 @@ const serverIdLayout = async ({
         <div className="h-full">
           <div 
           className="hidden md:flex h-full w-60 z-20 flex-col fixed inset-y-0">
-            <ServerSidebar serverId={(await params).serverId} />
+            <ServerSidebar serverId={params.serverId} />
           </div>
           <main className="h-full md:pl-60">
             {children}
