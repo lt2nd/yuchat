@@ -3,9 +3,9 @@ import { currentProfile } from "@/lib/current-profile";
 import { redirect } from "next/navigation";
 
 interface InvitePageProps {
-  params: {
+  params: Promise<{
     inviteCode: string;
-  };
+  }>;
 }
 
 const InvitePage = async ({ params }: InvitePageProps) => {
@@ -15,13 +15,13 @@ const InvitePage = async ({ params }: InvitePageProps) => {
     return redirect("/login");
   }
 
-  if (!params.inviteCode) {
+  if (!(await params).inviteCode) {
     return redirect("/");
   }
 
   const existingServer = await prisma.server.findFirst({
     where: {
-      inviteCode: params.inviteCode,
+      inviteCode: (await params).inviteCode,
       members: {
         some: {
           profileId: profile.id,
@@ -36,7 +36,7 @@ const InvitePage = async ({ params }: InvitePageProps) => {
 
   const server = await prisma.server.update({
     where: {
-      inviteCode: params.inviteCode,
+      inviteCode: (await params).inviteCode,
     },
     data: {
       members: {

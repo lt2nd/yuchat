@@ -12,7 +12,7 @@ export const initialProfile = async () => {
         return redirect('/login');
     }
 
-    const profile = await prisma.profile.findFirstOrThrow({ where: { email: session?.user?.email as string } })
+    const profile = await prisma.profile.findUnique({ where: { email: session?.user?.email as string } })
 
     if(profile) {
         return profile;
