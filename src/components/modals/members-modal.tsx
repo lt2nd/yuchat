@@ -40,6 +40,7 @@ import {
     DropdownMenuSubContent,
     DropdownMenuTrigger,
     DropdownMenuSubTrigger,
+    DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 
 
@@ -69,8 +70,10 @@ export const MembersModal = () => {
 
             const response = await axios.delete(url);
 
-            router.refresh();
+
+            refreshPage();
             onOpen("members", { server: response.data });
+            router.refresh();
         } catch (error) {
             console.log(error);
         } finally {
@@ -85,14 +88,16 @@ export const MembersModal = () => {
                 url: `/api/members/${memberId}`,
                 query: {
                     serverId: server?.id,
-                    
+
                 }
             });
 
             const response = await axios.patch(url, { role });
 
-            router.refresh();
+
+            refreshPage();
             onOpen("members", { server: response.data });
+            router.refresh();
         } catch (error) {
             console.log(error);
         } finally {
@@ -100,6 +105,7 @@ export const MembersModal = () => {
         }
     }
     const refreshPage = () => location.reload();
+
 
     return (
         <Dialog open={isModalOpen} onOpenChange={() => { onClose(); refreshPage(); }}>
@@ -130,45 +136,48 @@ export const MembersModal = () => {
                             {server.profileId !== member.profileId && loadingId !== member.id && (
                                 <div className="ml-auto">
                                     <DropdownMenu>
-                                        <DropdownMenuTrigger>
+                                        <DropdownMenuTrigger >
                                             <MoreVertical className="h-4 w-4 text-zinc-500" />
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent side="left">
                                             <DropdownMenuSub>
-                                                <DropdownMenuSubTrigger
-                                                    className="flex items-center"
-                                                >
-                                                    <ShieldQuestion
-                                                        className="w-4 h-4 mr-2"
-                                                    />
-                                                    <span>Role</span>
-                                                </DropdownMenuSubTrigger>
-                                                <DropdownMenuPortal>
-                                                    <DropdownMenuSubContent>
-                                                        <DropdownMenuItem
-                                                            onClick={() => onRoleChange(member.id, "GUEST")}
-                                                        >
-                                                            <Shield className="h-4 w-4 mr-2" />
-                                                            Guest
-                                                            {member.role === "GUEST" && (
-                                                                <Check
-                                                                    className="h-4 w-4 ml-auto"
-                                                                />
-                                                            )}
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem
-                                                            onClick={() => onRoleChange(member.id, "MODERATOR")}
-                                                        >
-                                                            <ShieldCheck className="h-4 w-4 mr-2" />
-                                                            Moderator
-                                                            {member.role === "MODERATOR" && (
-                                                                <Check
-                                                                    className="h-4 w-4 ml-auto"
-                                                                />
-                                                            )}
-                                                        </DropdownMenuItem>
-                                                    </DropdownMenuSubContent>
-                                                </DropdownMenuPortal>
+                                                <DropdownMenuGroup>
+                                                    <DropdownMenuSubTrigger 
+                                                        className="flex items-center"
+                                                    >
+                                                        <ShieldQuestion 
+                                                            className="w-4 h-4 mr-2"
+                                                        />
+                                                        <span>Role</span>
+                                                    </DropdownMenuSubTrigger>
+
+                                                    <DropdownMenuPortal>
+                                                        <DropdownMenuSubContent>
+                                                            <DropdownMenuItem
+                                                                onClick={() => onRoleChange(member.id, "GUEST")}
+                                                            >
+                                                                <Shield className="h-4 w-4 mr-2" />
+                                                                Guest
+                                                                {member.role === "GUEST" && (
+                                                                    <Check
+                                                                        className="h-4 w-4 ml-auto"
+                                                                    />
+                                                                )}
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem
+                                                                onClick={() => onRoleChange(member.id, "MODERATOR")}
+                                                            >
+                                                                <ShieldCheck className="h-4 w-4 mr-2" />
+                                                                Moderator
+                                                                {member.role === "MODERATOR" && (
+                                                                    <Check
+                                                                        className="h-4 w-4 ml-auto"
+                                                                    />
+                                                                )}
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuSubContent>
+                                                    </DropdownMenuPortal>
+                                                </DropdownMenuGroup>
                                             </DropdownMenuSub>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem
