@@ -30,19 +30,19 @@
 //     onClose: () => set({ type: null, isOpen: false }),
 // }))
 
-import { Server } from "@prisma/client";
+import { Channel, ChannelType, Server } from "@prisma/client";
 import {create} from "zustand";
 
 export type ModalType = "createServer" | "invite" | "editServer" | "members" | "createChannel" |
- "leaveServer" | "deleteServer";
+ "leaveServer" | "deleteServer" | "deleteChannel" | "editChannel" | "messageFile" | "deleteMessage";
 
 interface ModalData {
     server?: Server
-    // channel?: Channel
-    // channelType?: ChannelType;
-    // apiUrl?: string;
-    // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // query?: Record<string, any>;
+    channel?: Channel
+    channelType?: ChannelType;
+    apiUrl?: string;
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
+    query?: Record<string, any>;
 }
 
 interface ModalStore {

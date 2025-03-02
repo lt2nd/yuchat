@@ -57,7 +57,7 @@ export const EditServerModal = () => {
           form.reset();
           router.refresh();
           onClose();
-          refreshPage();
+          //refreshPage();
         } catch (error) {
           console.log(error);
         }
@@ -69,10 +69,10 @@ export const EditServerModal = () => {
         
       }
 
-      const refreshPage = () => location.reload();
+      //const refreshPage = () => location.reload();
 
     return (
-        <Dialog open={isModalOpen} onOpenChange={(open) => { if (!open) { handleClose(); refreshPage(); } }}>
+        <Dialog open={isModalOpen} onOpenChange={handleClose}>
             <DialogContent className='bg-white text-black p-0 overflow-hidden'>
                 <DialogHeader className='pt-8 px-6'>
                     <DialogTitle className='text-2xl text-center font-bold'>
