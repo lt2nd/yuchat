@@ -1,6 +1,5 @@
 
 
-
 import { redirect } from "next/navigation";
 
 import { currentProfile } from "@/lib/current-profile";
@@ -24,7 +23,7 @@ const ServerIdPage = async ({
 
   const server = await prisma.server.findUnique({
     where: {
-      id: (await params).serverId,
+      id: params.serverId,
       members: {
         some: {
           profileId: profile.id,
@@ -49,7 +48,7 @@ const ServerIdPage = async ({
     return null;
   }
 
-  return redirect(`/servers/${(await params).serverId}/channels/${initialChannel?.id}`)
+  return redirect(`/servers/${params.serverId}/channels/${initialChannel?.id}`)
 }
  
 export default ServerIdPage;
