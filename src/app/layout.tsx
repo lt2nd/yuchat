@@ -5,6 +5,7 @@ import "./globals.css";
 //import { Theme } from "@radix-ui/themes";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { SocketProvider } from "@/components/providers/socket-provider";
 
 
 const geistSans = Geist({
@@ -38,11 +39,11 @@ export default function RootLayout({
           enableSystem={false}
           storageKey="exyuchat-theme"
         >
-          
-          <ModalProvider />
+          <SocketProvider>
+            <ModalProvider />
 
-          {children}
-
+            {children}
+          </SocketProvider>
         </ThemeProvider>
       </body>
     </html>
